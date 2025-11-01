@@ -1,16 +1,44 @@
-# breathepom00
+# FocusBreath - Application Pomodoro + Respiration
 
-A new Flutter project.
+Application mobile Flutter combinant un minuteur Pomodoro avec des exercices de respiration guidée.
 
-## Getting Started
+## Fonctionnalités
 
-This project is a starting point for a Flutter application.
+- ✅ Minuteur Pomodoro (25/5/15 minutes)
+- ✅ Exercices de respiration guidée (4-4-4-4, 4-7-8, cohérence cardiaque)
+- ✅ Statistiques et suivi des progrès
+- ✅ Système de réalisations
+- ✅ Interface moderne et intuitive
 
-A few resources to get you started if this is your first Flutter project:
+## Installation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Assurez-vous d'avoir Flutter installé : https://flutter.dev/docs/get-started/install
+2. Clonez ce projet
+3. Exécutez `flutter pub get` pour installer les dépendances
+4. Lancez l'application avec `flutter run`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Structure du projet
+
+\`\`\`
+lib/
+├── main.dart                 # Point d'entrée
+└── screens/
+├── home_screen.dart      # Écran d'accueil
+├── timer_screen.dart     # Minuteur Pomodoro
+├── breathing_screen.dart # Exercices de respiration
+└── stats_screen.dart     # Statistiques
+\`\`\`
+
+## Technologies utilisées
+
+- Flutter 3.0+
+- Dart 3.0+
+- Material Design 3
+
+## Prochaines étapes
+
+- [ ] Ajouter la persistance des données (SharedPreferences ou SQLite)
+- [ ] Implémenter les notifications
+- [ ] Ajouter des sons et vibrations
+- [ ] Personnalisation des durées
+- [ ] Mode sombre complet

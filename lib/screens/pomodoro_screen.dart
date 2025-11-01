@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import '../service/database_helper.dart';
+import '../models/session.dart';
 
 class TimerScreen extends StatefulWidget {
   const TimerScreen({super.key});
@@ -11,12 +13,12 @@ class TimerScreen extends StatefulWidget {
 class _TimerScreenState extends State<TimerScreen> {
   bool _isRunning = false;
   bool _isWorkSession = true;
-  int _remainingSeconds = 25 * 60; // 25 minutes
+  int _remainingSeconds = 10; // reduced from 25*60 to 10 seconds for testing
   Timer? _timer;
 
-  final int _workDuration = 25 * 60;
-  final int _shortBreakDuration = 5 * 60;
-  final int _longBreakDuration = 15 * 60;
+  final int _workDuration = 10; // reduced from 25*60 to 10 seconds
+  final int _shortBreakDuration = 5; // reduced from 5*60 to 5 seconds
+  final int _longBreakDuration = 10; // reduced from 15*60 to 10 seconds
 
   @override
   void dispose() {
@@ -30,6 +32,8 @@ class _TimerScreenState extends State<TimerScreen> {
     });
 
     if (_isRunning) {
+      final startDuration = _remainingSeconds;
+
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         setState(() {
           if (_remainingSeconds > 0) {
@@ -37,6 +41,7 @@ class _TimerScreenState extends State<TimerScreen> {
           } else {
             _timer?.cancel();
             _isRunning = false;
+            _saveSession(startDuration);
             _showCompletionDialog();
           }
         });
@@ -85,6 +90,17 @@ class _TimerScreenState extends State<TimerScreen> {
     final minutes = seconds ~/ 60;
     final secs = seconds % 60;
     return '${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> _saveSession(int duration) async {
+    if (_isWorkSession) {
+      final session = Session(
+        type: 'pomodoro',
+        duration: duration,
+        completedAt: DateTime.now(),
+      );
+      await DatabaseHelper.instance.insertSession(session);
+    }
   }
 
   @override
@@ -196,7 +212,7 @@ class _TimerScreenState extends State<TimerScreen> {
                   Expanded(
                     child: _buildDurationButton(
                       context,
-                      '25 min',
+                      '10 sec', // updated label
                       'Travail',
                       _workDuration,
                       true,
@@ -206,7 +222,7 @@ class _TimerScreenState extends State<TimerScreen> {
                   Expanded(
                     child: _buildDurationButton(
                       context,
-                      '5 min',
+                      '5 sec', // updated label
                       'Pause courte',
                       _shortBreakDuration,
                       false,
@@ -216,7 +232,7 @@ class _TimerScreenState extends State<TimerScreen> {
                   Expanded(
                     child: _buildDurationButton(
                       context,
-                      '15 min',
+                      '10 sec', // updated label
                       'Pause longue',
                       _longBreakDuration,
                       false,
